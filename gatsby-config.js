@@ -13,6 +13,7 @@ module.exports = {
     resume: `https://jncompany.notion.site/Jinu-Noh-77e0e61d4fb446c298fb972f3363b0e8`,
   },
   plugins: [
+    `gatsby-plugin-postcss`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
