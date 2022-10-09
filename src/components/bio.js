@@ -29,23 +29,20 @@ const Bio = () => {
   const resume = data.site.siteMetadata?.resume;
 
   return (
-    <div className="bio">
+    <div className="flex items-center place-items-end">
       <StaticImage
-        className="bio-avatar"
+        className="mr-4 rounded-full"
         layout="fixed"
         formats={["auto", "webp", "avif"]}
         src="../images/jinu-bio.jpg"
-        width={100}
-        height={100}
+        width={50}
+        height={50}
         quality={95}
         alt="Profile picture"
       />
-        <h1>
-            <a href={resume}>
-                @{author.name}
-            </a>
-        </h1>
-
+        <a className="text-3xl" href={resume}>
+            @<span className="hover:underline">{author.name}</span>
+        </a>
     </div>
   )
 }
