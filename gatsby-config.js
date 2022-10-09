@@ -1,15 +1,16 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `My 2nd Brain`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Jinu Noh`,
+      // summary: ``,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    // description: `A starter blog demonstrating what Gatsby can do.`,
+    // siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `imaginuu`,
     },
+    resume: `https://jncompany.notion.site/Jinu-Noh-77e0e61d4fb446c298fb972f3363b0e8`,
   },
   plugins: [
     `gatsby-plugin-image`,
