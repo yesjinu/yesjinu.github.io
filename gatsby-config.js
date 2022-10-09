@@ -2,14 +2,11 @@ module.exports = {
   siteMetadata: {
     title: `My 2nd Brain`,
     author: {
-      name: `Jinu Noh`,
-      // summary: ``,
+      name: `Jinu`,
+      summary: `소프트웨어 엔지니어 / 데브시스터즈`,
     },
-    // description: `A starter blog demonstrating what Gatsby can do.`,
-    // siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
-    social: {
-      twitter: `imaginuu`,
-    },
+    // description: `Site description`,
+    // siteUrl: `https://yesjinu.github.io/`,
     resume: `https://jncompany.notion.site/Jinu-Noh-77e0e61d4fb446c298fb972f3363b0e8`,
   },
   plugins: [
