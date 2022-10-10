@@ -13,10 +13,8 @@ const BlogIndex = ({ data, location }) => {
     return (
       <Layout location={location} title={siteTitle}>
         <Seo title="All posts" />
-        <Bio/>
-        <p>
-          No blog posts found.
-        </p>
+        <Bio />
+        <p>No blog posts found.</p>
       </Layout>
     )
   }

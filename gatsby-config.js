@@ -11,7 +11,7 @@ module.exports = {
       resume: `https://jncompany.notion.site/Jinu-Noh-77e0e61d4fb446c298fb972f3363b0e8`,
       github: `https://github.com/yesjinu/`,
       linkedin: `https://www.linkedin.com/in/%EC%A7%84%EC%9A%B0-%EB%85%B8-59a770185/`,
-    }
+    },
   },
   plugins: [
     `gatsby-plugin-postcss`,
@@ -132,5 +132,5 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
   ],
-  pathPrefix: "/yesjinu.github.io"
+  pathPrefix: "/yesjinu.github.io",
 }

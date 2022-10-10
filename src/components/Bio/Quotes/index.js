@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 
 const Quotes = () => {
   const QUOTES_LIST = [
@@ -8,17 +8,17 @@ const Quotes = () => {
     "The future is not a gift, it is an achievement.",
     "The future is not something we enter. The future is something we create.",
   ]
-  
+
   const RandomQuote = () => {
-    const random = Math.floor(Math.random() * QUOTES_LIST.length);
-    return QUOTES_LIST[random];
+    const random = Math.floor(Math.random() * QUOTES_LIST.length)
+    return QUOTES_LIST[random]
   }
-  
+
   return (
     <p className="text-3xl italic">
-      <RandomQuote/>
+      <RandomQuote />
     </p>
   )
-};
+}
 
-export default Quotes;
+export default Quotes

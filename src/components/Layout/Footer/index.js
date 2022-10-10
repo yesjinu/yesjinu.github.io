@@ -1,6 +1,6 @@
-import {graphql, Link, useStaticQuery} from "gatsby";
-import * as React from "react";
-import Grid from "../Grid";
+import { graphql, Link, useStaticQuery } from "gatsby"
+import * as React from "react"
+import Grid from "../Grid"
 
 const Footer = () => {
   const data = useStaticQuery(graphql`
@@ -19,24 +19,32 @@ const Footer = () => {
       }
     }
   `)
-  
-  const authorName = data.site.siteMetadata?.author?.name;
-  const resumeLink = data.site.siteMetadata?.url?.resume;
-  const githubLink = data.site.siteMetadata?.url?.github;
-  const linkedinLink = data.site.siteMetadata?.url?.linkedin;
-  
+
+  const authorName = data.site.siteMetadata?.author?.name
+  const resumeLink = data.site.siteMetadata?.url?.resume
+  const githubLink = data.site.siteMetadata?.url?.github
+  const linkedinLink = data.site.siteMetadata?.url?.linkedin
+
   return (
     <Grid>
-      <footer className={`col-span-full flex flex-col items-center justify-center mt-12 md:space-x-6 md:flex-row`}>
+      <footer
+        className={`col-span-full flex flex-col items-center justify-center mt-12 md:space-x-6 md:flex-row`}
+      >
         <p>Designed by {authorName}</p>
         <div className="flex space-x-2 text-gray">
-          <Link to={resumeLink} target="_blank">Resume</Link>
-          <Link to={githubLink} target="_blank">GitHub</Link>
-          <Link to={linkedinLink} target="_blank">LinkedIn</Link>
+          <Link to={resumeLink} target="_blank">
+            Resume
+          </Link>
+          <Link to={githubLink} target="_blank">
+            GitHub
+          </Link>
+          <Link to={linkedinLink} target="_blank">
+            LinkedIn
+          </Link>
         </div>
       </footer>
     </Grid>
   )
 }
 
-export default Footer;
+export default Footer

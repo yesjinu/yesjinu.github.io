@@ -6,10 +6,10 @@
  */
 
 import * as React from "react"
-import {useStaticQuery, graphql, Link} from "gatsby"
+import { useStaticQuery, graphql, Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
-import Grid from "../Layout/Grid";
-import Quotes from "./Quotes";
+import Grid from "../Layout/Grid"
+import Quotes from "./Quotes"
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
@@ -28,13 +28,13 @@ const Bio = () => {
     }
   `)
 
-  const author = data.site.siteMetadata?.author;
-  const resumeLink = data.site.siteMetadata?.url.resume;
+  const author = data.site.siteMetadata?.author
+  const resumeLink = data.site.siteMetadata?.url.resume
 
   return (
     <Grid className="py-10">
       <div className="col-span-1 md:col-span-1 lg:col-span-2">
-        <Quotes/>
+        <Quotes />
       </div>
       <div className="flex items-center col-span-1">
         <StaticImage
@@ -48,7 +48,9 @@ const Bio = () => {
           alt="Profile picture"
         />
         <div>
-          <Link className="hover:underline font-bold" to={resumeLink}>{author.name}</Link>
+          <Link className="hover:underline font-bold" to={resumeLink}>
+            {author.name}
+          </Link>
           <p>{author.summary}</p>
         </div>
       </div>
