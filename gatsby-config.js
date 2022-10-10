@@ -1,7 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `My 2nd Brain`,
-    slogan: `Dent in the universe.`,
+    title: `Dent in the universe.`,
     author: {
       name: `노진우`,
       summary: `소프트웨어 엔지니어 / 데브시스터즈`,

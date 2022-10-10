@@ -12,7 +12,7 @@ const Header = ({location, title}) => {
       <div className="flex items-center space-x-2">
         <Logo/>
         {isRootPath && (
-          <p className="text-2xl">
+          <p className="text-2xl text-black">
             <Link to="/">{title}</Link>
           </p>
         )}

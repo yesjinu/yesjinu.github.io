@@ -15,7 +15,6 @@ const Bio = () => {
     query BioQuery {
       site {
         siteMetadata {
-          slogan
           author {
             name
             summary
@@ -28,15 +27,14 @@ const Bio = () => {
     }
   `)
 
-  const slogan = data.site.siteMetadata?.slogan
   const author = data.site.siteMetadata?.author;
   const resumeLink = data.site.siteMetadata?.url.resume;
 
   return (
-    <Grid>
+    <Grid className="py-10">
       <div className="col-span-1 md:col-span-1 lg:col-span-2">
-        <p className="font-bold text-3xl">
-          {slogan}
+        <p className="text-3xl">
+          Take chances,<br/> make mistakes,<br/> get messy.
         </p>
       </div>
       <div className="flex items-center col-span-1">
