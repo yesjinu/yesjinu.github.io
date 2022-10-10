@@ -6,14 +6,16 @@
  */
 
 import * as React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import {useStaticQuery, graphql, Link} from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
+import Grid from "./Layout/Grid";
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
     query BioQuery {
       site {
         siteMetadata {
+          slogan
           author {
             name
             summary
@@ -26,26 +28,34 @@ const Bio = () => {
     }
   `)
 
-  // Set these values by editing "siteMetadata" in gatsby-config.js
+  const slogan = data.site.siteMetadata?.slogan
   const author = data.site.siteMetadata?.author;
-  const resume = data.site.siteMetadata?.resume;
+  const resumeLink = data.site.siteMetadata?.url.resume;
 
   return (
-    <div className="flex items-center place-items-end">
-      <StaticImage
-        className="mr-4 rounded-full"
-        layout="fixed"
-        formats={["auto", "webp", "avif"]}
-        src="../images/jinu-bio.jpg"
-        width={50}
-        height={50}
-        quality={95}
-        alt="Profile picture"
-      />
-        <a className="text-3xl" href={resume}>
-            @<span className="hover:underline">{author.name}</span>
-        </a>
-    </div>
+    <Grid>
+      <div className="col-span-1 md:col-span-1 lg:col-span-2">
+        <p className="font-bold text-3xl">
+          {slogan}
+        </p>
+      </div>
+      <div className="flex items-center col-span-1">
+        <StaticImage
+          className="mr-4 rounded-full"
+          layout="fixed"
+          formats={["auto", "webp", "avif"]}
+          src="../images/jinu-bio.jpg"
+          width={50}
+          height={50}
+          quality={95}
+          alt="Profile picture"
+        />
+        <div>
+          <Link className="hover:underline font-bold" to={resumeLink}>{author.name}</Link>
+          <p>{author.summary}</p>
+        </div>
+      </div>
+    </Grid>
   )
 }
 

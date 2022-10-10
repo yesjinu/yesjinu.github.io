@@ -1,7 +1,6 @@
 import * as React from "react"
 import Header from "./Header";
 import Footer from "./Footer";
-import Grid from "./Grid";
 
 const Layout = ({ location, title, children }) => {
   
@@ -9,9 +8,7 @@ const Layout = ({ location, title, children }) => {
     <>
       <Header location={location} title={title}/>
       
-      <Grid>
-        <main className="col-span-full">{children}</main>
-      </Grid>
+      <main>{children}</main>
       
       <Footer />
     </>
