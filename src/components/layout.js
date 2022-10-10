@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link } from "gatsby"
+import {graphql, Link, useStaticQuery} from "gatsby"
 
 const Layout = ({ location, title, children }) => {
   const rootPath = `${__PATH_PREFIX__}/`
@@ -14,6 +14,20 @@ const Layout = ({ location, title, children }) => {
     </Link>
   )
   
+  const data = useStaticQuery(graphql`
+    query FooterQuery {
+      site {
+        siteMetadata {
+          url {
+            resume
+            github
+            linkedin
+          }
+        }
+      }
+    }
+  `)
+  
   
   
   return (
@@ -25,9 +39,9 @@ const Layout = ({ location, title, children }) => {
             Designed by Jinu
           </p>
           <div className="flex space-x-2 text-gray">
-            <Link to="">Resume</Link>
-            <Link to="">Github</Link>
-            <Link to="">LinkedIn</Link>
+            <Link to={data.site.siteMetadata?.url?.resume}>Resume</Link>
+            <Link to={data.site.siteMetadata?.url?.github}>Github</Link>
+            <Link to={data.site.siteMetadata?.url?.linkedin}>LinkedIn</Link>
           </div>
         </footer>
     </div>

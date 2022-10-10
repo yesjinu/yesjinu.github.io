@@ -18,7 +18,9 @@ const Bio = () => {
             name
             summary
           }
-          resume
+          url {
+            resume
+          }
         }
       }
     }

@@ -7,7 +7,11 @@ module.exports = {
     },
     // description: `Site description`,
     // siteUrl: `https://yesjinu.github.io/`,
-    resume: `https://jncompany.notion.site/Jinu-Noh-77e0e61d4fb446c298fb972f3363b0e8`,
+    url: {
+      resume: `https://jncompany.notion.site/Jinu-Noh-77e0e61d4fb446c298fb972f3363b0e8`,
+      github: `https://github.com/yesjinu/`,
+      linkedin: `https://www.linkedin.com/in/%EC%A7%84%EC%9A%B0-%EB%85%B8-59a770185/`,
+    }
   },
   plugins: [
     `gatsby-plugin-postcss`,
