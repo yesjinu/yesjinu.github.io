@@ -8,7 +8,7 @@
 import * as React from "react"
 import {useStaticQuery, graphql, Link} from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
-import Grid from "./Layout/Grid";
+import Grid from "../Layout/Grid";
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
