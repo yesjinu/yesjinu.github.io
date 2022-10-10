@@ -9,6 +9,7 @@ import * as React from "react"
 import {useStaticQuery, graphql, Link} from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import Grid from "../Layout/Grid";
+import Quotes from "./Quotes";
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
@@ -33,9 +34,7 @@ const Bio = () => {
   return (
     <Grid className="py-10">
       <div className="col-span-1 md:col-span-1 lg:col-span-2">
-        <p className="text-3xl">
-          Take chances,<br/> make mistakes,<br/> get messy.
-        </p>
+        <Quotes/>
       </div>
       <div className="flex items-center col-span-1">
         <StaticImage
