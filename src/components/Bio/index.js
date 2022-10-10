@@ -41,7 +41,7 @@ const Bio = () => {
           className="mr-4 rounded-full"
           layout="fixed"
           formats={["auto", "webp", "avif"]}
-          src="../images/jinu-bio.jpg"
+          src="../../images/profile-pic.png"
           width={50}
           height={50}
           quality={95}
