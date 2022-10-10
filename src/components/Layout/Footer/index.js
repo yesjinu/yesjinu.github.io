@@ -24,9 +24,9 @@ const Footer = () => {
     <footer className="flex flex-col items-center justify-center mt-12 md:space-x-6 md:flex-row">
       <p>Designed by {data.site.siteMetadata?.author?.name}</p>
       <div className="flex space-x-2 text-gray">
-        <Link to={data.site.siteMetadata?.url?.resume}>Resume</Link>
-        <Link to={data.site.siteMetadata?.url?.github}>Github</Link>
-        <Link to={data.site.siteMetadata?.url?.linkedin}>LinkedIn</Link>
+        <Link to={data.site.siteMetadata?.url?.resume} target="_blank">Resume</Link>
+        <Link to={data.site.siteMetadata?.url?.github} target="_blank">Github</Link>
+        <Link to={data.site.siteMetadata?.url?.linkedin} target="_blank">LinkedIn</Link>
       </div>
     </footer>
   )
