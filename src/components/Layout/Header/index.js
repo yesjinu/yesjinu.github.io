@@ -9,14 +9,14 @@ const Header = ({location, title}) => {
   
   return (
     <Grid>
-      <div className="flex items-center space-x-2">
+      <Link className="flex items-center space-x-2" to="/">
         <Logo/>
         {isRootPath && (
           <p className="text-2xl text-black">
-            <Link to="/">{title}</Link>
+            {title}
           </p>
         )}
-      </div>
+      </Link>
     </Grid>
   )
 }
