@@ -1,25 +1,22 @@
 import {Link} from "gatsby";
 import * as React from "react";
 import Grid from "../Grid";
+import Logo from "./Logo";
 
 const Header = ({location, title}) => {
   const rootPath = `${__PATH_PREFIX__}/`
   const isRootPath = location.pathname === rootPath
-  const header = isRootPath ? (
-    <h1 className="main-heading">
-      <Link to="/">{title}</Link>
-    </h1>
-  ) : (
-    <Link className="header-link-home" to="/">
-      {title}
-    </Link>
-  )
   
   return (
     <Grid>
-      <header className="col-span-full">
-        {header}
-      </header>
+      <div className="flex items-center space-x-2">
+        <Logo/>
+        {isRootPath && (
+          <p className="text-2xl">
+            <Link to="/">{title}</Link>
+          </p>
+        )}
+      </div>
     </Grid>
   )
 }
