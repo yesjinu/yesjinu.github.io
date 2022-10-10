@@ -1,5 +1,6 @@
 import {Link} from "gatsby";
 import * as React from "react";
+import Grid from "../Grid";
 
 const Header = ({location, title}) => {
   const rootPath = `${__PATH_PREFIX__}/`
@@ -14,8 +15,13 @@ const Header = ({location, title}) => {
     </Link>
   )
   
-  return <header className="global-header">{header}</header>
-  
+  return (
+    <Grid>
+      <header className="col-span-full">
+        {header}
+      </header>
+    </Grid>
+  )
 }
 
 export default Header;

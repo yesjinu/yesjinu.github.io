@@ -1,5 +1,6 @@
 import {graphql, Link, useStaticQuery} from "gatsby";
 import * as React from "react";
+import Grid from "../Grid";
 
 const Footer = () => {
   const data = useStaticQuery(graphql`
@@ -25,14 +26,16 @@ const Footer = () => {
   const linkedinLink = data.site.siteMetadata?.url?.linkedin;
   
   return (
-    <footer className="flex flex-col items-center justify-center mt-12 md:space-x-6 md:flex-row">
-      <p>Designed by {authorName}</p>
-      <div className="flex space-x-2 text-gray">
-        <Link to={resumeLink} target="_blank">Resume</Link>
-        <Link to={githubLink} target="_blank">GitHub</Link>
-        <Link to={linkedinLink} target="_blank">LinkedIn</Link>
-      </div>
-    </footer>
+    <Grid>
+      <footer className={`col-span-full flex flex-col items-center justify-center mt-12 md:space-x-6 md:flex-row`}>
+        <p>Designed by {authorName}</p>
+        <div className="flex space-x-2 text-gray">
+          <Link to={resumeLink} target="_blank">Resume</Link>
+          <Link to={githubLink} target="_blank">GitHub</Link>
+          <Link to={linkedinLink} target="_blank">LinkedIn</Link>
+        </div>
+      </footer>
+    </Grid>
   )
 }
 
