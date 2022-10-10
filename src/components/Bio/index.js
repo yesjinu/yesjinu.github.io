@@ -48,7 +48,7 @@ const Bio = () => {
           alt="Profile picture"
         />
         <div>
-          <Link className="hover:underline font-bold" to={resumeLink}>
+          <Link className="hover:underline font-bold" to={resumeLink} target="_blank">
             {author.name}
           </Link>
           <p>{author.summary}</p>
