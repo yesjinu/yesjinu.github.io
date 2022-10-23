@@ -32,13 +32,13 @@ const Footer = () => {
       >
         <p>Designed by {authorName}</p>
         <div className="flex space-x-2 text-gray">
-          <Link to={resumeLink} target="_blank">
+          <Link className="hover:underline" to={resumeLink} target="_blank">
             Resume
           </Link>
-          <Link to={githubLink} target="_blank">
+          <Link className="hover:underline" to={githubLink} target="_blank">
             GitHub
           </Link>
-          <Link to={linkedinLink} target="_blank">
+          <Link className="hover:underline" to={linkedinLink} target="_blank">
             LinkedIn
           </Link>
         </div>
