@@ -1,0 +1,4 @@
+baseURL = 'https://yesjinu.github.io/'
+languageCode = 'ko-KR'
+title = 'Dent in the universe'
+theme = "ananke"
