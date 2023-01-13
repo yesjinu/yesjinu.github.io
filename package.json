@@ -1,5 +1,6 @@
 {
-  "name": "@example/blog",
+  "homepage": "https://yesjinu.github.io",
+  "name": "Dent in the universe.",
   "type": "module",
   "version": "0.0.1",
   "private": true,
