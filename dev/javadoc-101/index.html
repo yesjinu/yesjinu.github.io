@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="astro-GU7EB2LC">
+	<head>
+		<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v1.9.2">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://yesjinu.github.io/dev/javadoc-101/">
+
+<!-- Primary Meta Tags -->
+<title>JavaDoc 첫 걸음</title>
+<meta name="title" content="JavaDoc 첫 걸음">
+<meta name="description">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yesjinu.github.io/dev/javadoc-101/">
+<meta property="og:title" content="JavaDoc 첫 걸음">
+<meta property="og:description">
+<meta property="og:image" content="https://yesjinu.github.io/placeholder-social.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://yesjinu.github.io/dev/javadoc-101/">
+<meta property="twitter:title" content="JavaDoc 첫 걸음">
+<meta property="twitter:description">
+<meta property="twitter:image" content="https://yesjinu.github.io/placeholder-social.jpg">
+
+		
+	<link rel="stylesheet" href="/assets/about.3d187aa4.css" />
+<link rel="stylesheet" href="/assets/about.7754cdb7.css" /></head>
+
+	<body class="astro-GU7EB2LC">
+		<header class="astro-WEWJ36OD">
+	<h2 class="astro-WEWJ36OD">
+		Here&#39;s my dents in the universe
+	</h2>
+	<nav class="astro-WEWJ36OD">
+		<a href="/" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Home
+</a>
+
+		<a href="/dev" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Dev
+</a>
+
+		<a href="/life" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Life
+</a>
+
+		<a href="https://github.com/yesjinu" class="astro-WEWJ36OD astro-MIGJJ2DC" target="_blank">
+	GitHub
+</a>
+
+		<a href="https://www.linkedin.com/in/jinu-noh-59a770185/" class="astro-WEWJ36OD astro-MIGJJ2DC" target="_blank">
+	LinkedIn
+</a>
+
+	</nav>
+</header>
+
+		<main class="astro-GU7EB2LC">
+			<article class="astro-GU7EB2LC">
+				
+				<h1 class="title astro-GU7EB2LC">JavaDoc 첫 걸음</h1>
+				<time class="astro-GU7EB2LC">2022-06-10T21:54:28.000Z</time>
+				
+				<hr class="astro-GU7EB2LC">
+				<h2 id="in-brief">In brief,</h2>
+<p>JavaDoc은 Java 소스 코드의 주석으로부터 HTML 포맷으로 코드에 대한 문서를 생성하는 툴</p>
+<ul>
+<li>JavaDoc 툴은 JDK에 포함되어 있음</li>
+</ul>
+<h2 id="how-to-write-javadoc">How to write JavaDoc</h2>
+<p><code>/**</code> 로 시작해야 함!</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">1. 일반 한 줄 코멘트</span></span>
+<span class="line"><span style="color: #c9d1d9">// </span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">2. 일반 여러 줄 코멘트</span></span>
+<span class="line"><span style="color: #c9d1d9">/* </span></span>
+<span class="line"><span style="color: #c9d1d9"> * </span></span>
+<span class="line"><span style="color: #c9d1d9"> */ </span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">3. JavaDoc!</span></span>
+<span class="line"><span style="color: #c9d1d9">/** </span></span>
+<span class="line"><span style="color: #c9d1d9"> * </span></span>
+<span class="line"><span style="color: #c9d1d9"> */</span></span></code></pre>
+<h3 id="구성">구성</h3>
+<p>JavaDoc은 <code>코멘트</code>와 <code>block tags(@)</code>로 구성되어 있음</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">/** </span></span>
+<span class="line"><span style="color: #c9d1d9"> * Hero is the main entity . . . </span></span>
+<span class="line"><span style="color: #c9d1d9"> * </span></span>
+<span class="line"><span style="color: #c9d1d9"> * Please see the {@link com.baeldung.javadoc.Person} class\</span></span>
+<span class="line"><span style="color: #c9d1d9"> * @author Captain America </span></span>
+<span class="line"><span style="color: #c9d1d9"> */ </span></span>
+<span class="line"><span style="color: #c9d1d9">public class SuperHero extends Person { // fields and methods }</span></span></code></pre>
+<h3 id="몇-가지-block-tags">몇 가지 <code>block tags(@)</code></h3>
+<ul>
+<li><em><code>@param</code></em>  메소드 파라미터나 들어올 것이 예상되는 input에 대한 정보</li>
+<li><em><code>@return</code></em> 리턴 (예상) 값</li>
+<li><em><code>@see</code></em> 뒤에 링크를 생성함. <code>@link</code>와 비슷하지만 link와 같이 인라인 링크가 아닌 reference와 같은 형식으로 제시됨</li>
+<li><em><code>@since</code></em>  어떤 버전에 이 클래스/필드/메소드가 추가되었는지 명시</li>
+<li><em><code>@version</code></em>  소프트웨어 버전을 명시, <code>%I%</code> 나  <code>%G%</code>  매크로와 같이 쓰임</li>
+<li><em><code>@throws</code></em>  던질만한 예외를 미리 명시해줌</li>
+<li><em><code>@deprecated</code></em>  왜, 언제 deprecate되었는지, 대체제는 무엇인지에 대한 정보를 제공</li>
+</ul>
+<h2 id="how-to-generate">How to generate?</h2>
+<p>JDK에 포함된 command line tool 혹은 gradle 이용해 생성 가능</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ javadoc -d doc src/*  # -d 옵션을 통해 문서 생성 위치 지정 가능</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">$ ./gradlew javadoc</span></span></code></pre>
+<h2 id="notable-points">Notable points</h2>
+<ul>
+<li>JavaDoc은 private field에 대한 문서는 생성하지 않음. 단 -private 옵션을 추가하면 가능</li>
+</ul>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://www.jetbrains.com/help/idea/working-with-code-documentation.html">Javadocs | IntelliJ IDEA</a></li>
+<li><a href="https://www.baeldung.com/javadoc">Introduction to JavaDoc | Baeldung</a></li>
+</ul>
+			</article>
+		</main>
+		<footer class="astro-GU32XT2E">
+	&copy; 2020-2023 Jinu Noh. All rights reserved.
+</footer>
+
+	</body></html>

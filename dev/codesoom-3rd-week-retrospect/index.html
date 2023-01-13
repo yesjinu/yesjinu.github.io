@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="astro-GU7EB2LC">
+	<head>
+		<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v1.9.2">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://yesjinu.github.io/dev/codesoom-3rd-week-retrospect/">
+
+<!-- Primary Meta Tags -->
+<title>코드숨 3주차 과정 회고</title>
+<meta name="title" content="코드숨 3주차 과정 회고">
+<meta name="description">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yesjinu.github.io/dev/codesoom-3rd-week-retrospect/">
+<meta property="og:title" content="코드숨 3주차 과정 회고">
+<meta property="og:description">
+<meta property="og:image" content="https://yesjinu.github.io/placeholder-social.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://yesjinu.github.io/dev/codesoom-3rd-week-retrospect/">
+<meta property="twitter:title" content="코드숨 3주차 과정 회고">
+<meta property="twitter:description">
+<meta property="twitter:image" content="https://yesjinu.github.io/placeholder-social.jpg">
+
+		
+	<link rel="stylesheet" href="/assets/about.3d187aa4.css" />
+<link rel="stylesheet" href="/assets/about.7754cdb7.css" /></head>
+
+	<body class="astro-GU7EB2LC">
+		<header class="astro-WEWJ36OD">
+	<h2 class="astro-WEWJ36OD">
+		Here&#39;s my dents in the universe
+	</h2>
+	<nav class="astro-WEWJ36OD">
+		<a href="/" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Home
+</a>
+
+		<a href="/dev" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Dev
+</a>
+
+		<a href="/life" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Life
+</a>
+
+		<a href="https://github.com/yesjinu" class="astro-WEWJ36OD astro-MIGJJ2DC" target="_blank">
+	GitHub
+</a>
+
+		<a href="https://www.linkedin.com/in/jinu-noh-59a770185/" class="astro-WEWJ36OD astro-MIGJJ2DC" target="_blank">
+	LinkedIn
+</a>
+
+	</nav>
+</header>
+
+		<main class="astro-GU7EB2LC">
+			<article class="astro-GU7EB2LC">
+				
+				<h1 class="title astro-GU7EB2LC">코드숨 3주차 과정 회고</h1>
+				<time class="astro-GU7EB2LC">2022-06-26T07:33:02.000Z</time>
+				
+				<hr class="astro-GU7EB2LC">
+				<h1 id="lesson-learned">Lesson learned</h1>
+<ul>
+<li>계층형 테스트 코드 작성하는 방법. 지금까지 주석을 통해 Given-When-Then을 표기해왔는데, 이를 nested class를 통해 표기할 수 있다는 사실을 배웠다. (<a href="https://github.com/CodeSoom/spring-week3-assignment-1/pull/76#discussion_r901595865">관련 PR 링크</a>)</li>
+<li>Mock을 이용한 테스트의 위험함. 테스트에서 Mock을 이용하면, 원하는 부분만 분리해 테스트할 수 있을 것이라고 생각했다. 하지만 대부분의 경우 Mock은 테스트 코드와 실제 객체의 행동을 분리했고, 많은 경우 mock을 사용하지 않는 것이 코드 변경에도 더 유연한 코드를 사용할 수 있게 했다. 특정 Given condition이 필요하다면 mock을 사용하기보다, 실제 로직에 사용되는 메소드나 API를 이용해 값을 세팅하면, 로직이 잘못 변경되었을 때 테스트가 올바로 터지는(!) 화재 경보기 역할을 수행할 수 있다. (<a href="https://github.com/CodeSoom/spring-week3-assignment-1/pull/76#discussion_r902555122">관련 PR 링크</a>)</li>
+<li>테스트는 벽돌을 쌓아나가듯이. API를 테스트하는 코드에서 다른 API를 사용해도 되는지 고민이 되었다. 예를 들어 <code>GET /tasks</code> API를 테스트하기 위해선, 미리 task를 등록해야 했고 이를 위해 <code>POST /tasks</code> 호출이 필요한 식이었다. 종립님은 안개를 걷어나가듯이 테스트에서 사용하는 도구들을 하나씩 테스트를 이용해 점검하고, 믿을만하게 느껴지는 도구를 늘려나가면서 테스트를 작성하기를 권하셨다. 테스트가 그 자체적으로 완전 무결할 필요는 없다. 믿을만한 도구를 이용해 애플리케이션이 믿을만한 수준으로 동작하는 것을 테스트하면 됐던 것이다. (<a href="https://discord.com/channels/718694214119981068/954248055870349332/989513483194363964">Discord 링크</a>)</li>
+<li>테스트는 스스로를 설명해야 한다. 한 번 만든 테스트는 잘 지워지지 않고, 여러 번 읽히게 된다. 그렇기 때문에 테스트의 설명력과 가독성이 매우 중요해지는 것이다. 또한 테스트는 그 자체적으로 코드에 대한 하나의 좋은 유즈 케이스 역할을 할 수 있다. (<a href="https://discord.com/channels/718694214119981068/954248055870349332/989515446497726464">Discord 논의 링크</a>)</li>
+</ul>
+<h1 id="개인적-감상">개인적 감상</h1>
+<p>PR 과제에 대한 리뷰를 해주시는 종립님은, 당신이 생각하시는 좋은 방안보다는 화두를 던지는 방법을 사용하신다. ‘선택적으로 일부 테스트만 남겨야한다면 무엇을 남기면 좋을까요?’, ‘프로덕션 코드와 테스트 코드는 성격이 어떻게 다를까요?’, ‘테스트 코드에선 상속이 때로는 좋은 옵션이 될 수도 있어요’ 등.</p>
+<p>종립님의 피드백을 통해 배우고 있는 것이 있다면 ’<strong>이 코드가 왜 필요한지 생각하며 코드를 작성해야한다</strong>‘는 것. 일하다보면 습관적으로 태스크를 처리하게 되는 순간이 있다. 예를 들어, <code>getGreetings()</code> 메소드의 테스트 코드를 짜야한다고 하자. (<a href="https://github.com/CodeSoom/spring-week3-assignment-1/pull/79#discussion_r906674569">관련 PR 링크</a>)</p>
+<p>두 가지 행동이 가능하다.</p>
+<ol>
+<li>
+<p>하나는, <code>getGreetings()</code> 메소드의 구현부를 확인하고(“Hello, world!”를 리턴), 이를 테스트하는 코드를 추가하는 것.</p>
+</li>
+<li>
+<p>다른 하나는, 이 함수를 왜 테스트해야하는지 생각해보고(서버가 제대로 실행됐는지 확인), 이를 테스트하는 코드를 추가하는 것.</p>
+</li>
+</ol>
+<p>비슷해보이는 두 행동은 전혀 다른 테스트 코드를 낳는다. 전자의 행동이 response 값에 포함된 string 값이 일치하는지 확인하는 테스트 코드를 작성할 것이라면, 후자의 행동은 response의 string 값이 일치하는 것은 ‘테스트하고자 하는 대상(=서버가 살아있나?)’ 하나도 중요하지 않다는 것을 알고, 보다 적합한 테스트 코드를 작성할 수 있을 것이다.</p>
+			</article>
+		</main>
+		<footer class="astro-GU32XT2E">
+	&copy; 2020-2023 Jinu Noh. All rights reserved.
+</footer>
+
+	</body></html>

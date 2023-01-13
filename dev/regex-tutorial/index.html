@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="astro-GU7EB2LC">
+	<head>
+		<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v1.9.2">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://yesjinu.github.io/dev/regex-tutorial/">
+
+<!-- Primary Meta Tags -->
+<title>Regex로 당신의 검색에 날개를 달아주세요</title>
+<meta name="title" content="Regex로 당신의 검색에 날개를 달아주세요">
+<meta name="description">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yesjinu.github.io/dev/regex-tutorial/">
+<meta property="og:title" content="Regex로 당신의 검색에 날개를 달아주세요">
+<meta property="og:description">
+<meta property="og:image" content="https://yesjinu.github.io/placeholder-social.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://yesjinu.github.io/dev/regex-tutorial/">
+<meta property="twitter:title" content="Regex로 당신의 검색에 날개를 달아주세요">
+<meta property="twitter:description">
+<meta property="twitter:image" content="https://yesjinu.github.io/placeholder-social.jpg">
+
+		
+	<link rel="stylesheet" href="/assets/about.3d187aa4.css" />
+<link rel="stylesheet" href="/assets/about.7754cdb7.css" /></head>
+
+	<body class="astro-GU7EB2LC">
+		<header class="astro-WEWJ36OD">
+	<h2 class="astro-WEWJ36OD">
+		Here&#39;s my dents in the universe
+	</h2>
+	<nav class="astro-WEWJ36OD">
+		<a href="/" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Home
+</a>
+
+		<a href="/dev" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Dev
+</a>
+
+		<a href="/life" class="astro-WEWJ36OD astro-MIGJJ2DC">
+	Life
+</a>
+
+		<a href="https://github.com/yesjinu" class="astro-WEWJ36OD astro-MIGJJ2DC" target="_blank">
+	GitHub
+</a>
+
+		<a href="https://www.linkedin.com/in/jinu-noh-59a770185/" class="astro-WEWJ36OD astro-MIGJJ2DC" target="_blank">
+	LinkedIn
+</a>
+
+	</nav>
+</header>
+
+		<main class="astro-GU7EB2LC">
+			<article class="astro-GU7EB2LC">
+				
+				<h1 class="title astro-GU7EB2LC">Regex로 당신의 검색에 날개를 달아주세요</h1>
+				<time class="astro-GU7EB2LC">2021-10-31T11:37:25.000Z</time>
+				
+				<hr class="astro-GU7EB2LC">
+				<h2 id="1-intro">1. Intro.</h2>
+<p>정규표현식(Regular expression, Regex)에 관한 재미있는 일화*가 있어 소개한다. 1972년, 벨 연구소에 다음과 같은 문의 전화가 왔다고 한다.</p>
+<blockquote>
+<p><strong>“휴대용 계산기를 거꾸로 들면 숫자 중 일부가 글자가 된다는 것을 알게 됐습니다. 예를 들면, 3은 E가 되고, 7은 L이 되죠. 계산기를 거꾸로 들었을 때 만들 수 있는 단어가 어떤 것들이 있는지 알아봐주실 수 있을까요?”</strong></p>
+</blockquote>
+<p>당시 벨 연구소에서 일하던 브라이언 커닝햄(주석)은 계산기를 거꾸로 들었을 때 만들어질 수 있는 알파벳이 B, E, H, I, L, O, S 임을 확인하고, 키보드 앞에 앉아 다음과 같은 명령어를 입력했다고 한다. <code>grep '^[behilos]*$' /usr/dict/web2</code></p>
+<p>/usr/dict/web2 파일은 Webster’s Second International 사전에 등재된 234,936 개의 단어를 모두 포함하고 있는 파일이다. 커닝햄은 순식간에 계산기를 뒤집어 만들 수 있는 263개의 단어를 찾아낼 수 있었고, 그 단어 목록을 프린터로 출력해 전화를 걸었던 이에게 보내주었다고 한다.</p>
+<p>위와 같은 특수한 상황이 아니더라도, 코드를 작성하다보면 특정한 <strong>패턴</strong>을 찾고싶은 경우가 생긴다. 찾고싶은 텍스트가 있다면 <code>Cmd(Ctrl) + F</code>로 쉽게 찾아낼 수 있겠지만, 패턴은 그렇지 않다. ‘알파벳 B, E, H, I, L, O, S 로만 이루어진 단어’를 어떻게 검색할 것인가? 정규표현식으로는 가능하다. 정규표현식은 당신의 검색에 날개를 달아준다. 그 문법을 배워보자.</p>
+<h2 id="2-how-to-use">2. How to use?</h2>
+<h3 id="1-표기">1) 표기</h3>
+<p>Regex 리터럴은 슬래시(“/”)로 감싸 표현한다. <code>/찾고싶은_패턴/</code> 과 같이 표현하는 식이다. 간결한 표기를 위해, 아래 글에서는 슬래시를 생략하기로 한다.</p>
+<ul>
+<li>패턴을 ‘인자’로 넘기는 경우에는 슬래시를 생략한다. 위의 예시에서 grep에도 인자를 넘길 때, 슬래시를 생략하고 패턴만 문자열로 만들어 넘겼다. Visual Studio Code도 regex 검색을 지원하는데, 이 역시 슬래시 없이 문자열만 입력하도록 되어있다.</li>
+<li>리터럴의 마지막 슬래시 오른쪽에 <code>flag</code>를 붙이기도 하는데, <code>/abc/i</code> 와 같이 표현하는 식이다. 이는 “case-insensitive하게 검색하라”는 의미가 된다. <code>i</code> 이외에도 <code>g</code> (global 전역 검색) <code>m</code> (multiline 다중행) 등이 있다. (<a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions#%ED%94%8C%EB%9E%98%EA%B7%B8%EB%A5%BC_%EC%82%AC%EC%9A%A9%ED%95%9C_%EA%B3%A0%EA%B8%89%EA%B2%80%EC%83%89">링크</a>)</li>
+</ul>
+<h3 id="2-단순-패턴">2) 단순 패턴</h3>
+<p>단순 패턴은 문자열을 있는 그대로 대응시키고 싶을 때 사용한다. 우리가 일반적으로 사용하는 검색 방식과 같다. ‘abc’라는 패턴은 문자열에서 정확히 ‘abc’라는 문자가 모두 함께, 순서대로 나타나야 대응된다.</p>
+<h3 id="3-특수-문자">3) 특수 문자</h3>
+<p>Regex는 특수 문자를 사용할 때 빛을 발한다. 문법과 함께 예시를 보면서 이해해보도록 하자.</p>
+<p><strong>그룹</strong>
+PatternDescription<code>cat|dog</code>‘cat’ 혹은 ‘dog’에 해당하는 문자열에 매칭된다.<code>[]</code>문자셋(Character Set)으로 대괄호 안의 어떤 문자와도 대응된다.<code>s[ae]t</code>‘sat’, ‘set’에 해당하는 문자열에 매칭된다.<code>s[a-e]t</code>Dash(-)를 사이에 쓰면 범위를 나타내게 되어 ‘sat’, ‘sbt’, ‘sct’, ‘sdt’, ‘set’에 매칭되게 된다.<code>[^a-e]</code>대괄호([])와 hat(^)을 같이 사용하면 a-e에 해당하지  않는 모든 문자에 매칭된다. ‘sft’, ‘sgt’ 등에 매칭된다.<code>()</code>매칭된 문자열을 ‘그룹’으로 만들어 ‘저장’한다.
+<strong>문자</strong>
+PatternDescription<code>\d</code>0부터 9까지의 숫자에 매칭된다.<code>\w``[a-zA-Z0-9_]</code>와 같다. ‘a’부터 ‘z’까지, ‘A’부터 ‘Z’까지, 숫자 0부터 9까지에 매칭된다.<code>\s</code>스페이스 바, 탭, 라인 브레이크에 매칭된다.<code>.</code>라인 브레이크를 제외한 모든 문자에 매칭된다. 마침표를 검색하고 싶으면  .와 같이 검색하면 된다.
+<strong>개수 Quantifier</strong>
+PatternDescription<code>?</code>0 ~ 1개.  <code>ca?t</code>은 ‘ct’, ‘cat’에 매칭된다.<code>+</code>1 ~ n개.  <code>ca+t</code>은 ‘cat’, ‘caat’, ‘caaat’, ‘caaaat’ … 에 매칭된다<code>*</code>0 ~ n개.  <code>ca*t</code>은 ‘ct’, ‘cat’, ‘caat’, ‘caaat’, … 에 매칭된다.<code>{n}</code>n개.  <code>ca{3}t</code>은 ‘caaat’에 매칭된다.<code>{a, b}</code>a ~ b개.  <code>ca{1, 3}t</code>은 ‘cat’, ‘caat’, ‘caaat’에 매칭된다.
+<strong>이 외</strong>
+PatternDescription<code>^</code>라인의 첫 시작에 매칭된다.<code>$</code>라인의 마지막에 매칭된다.</p>
+<h2 id="3-example">3. Example</h2>
+<p>Regex는 아무리 설명을 읽어도, 실제로 작성하기 전까지는 감이 오지 않는다. 작성한 regex에 매칭되는 문자열을 실시간으로 확인해볼 수 있는 <a href="https://regexr.com/">웹사이트</a>를 켜놓고, 실습해보도록 하자.</p>
+<p><strong>특정 문자만 매칭하기</strong></p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">(MATCH) can  </span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) man  </span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) fan  </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  dan  </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  ran  </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  pan </span></span>
+<span class="line"><span style="color: #c9d1d9">--------- </span></span>
+<span class="line"><span style="color: #c9d1d9">[cmf]an      # 문자셋을 사용해 c, m, f로 시작하는 문자열만 매칭된다.</span></span>
+<span class="line"><span style="color: #c9d1d9">[^drp]an     # 문자셋과 ^을 함께 사용해 d, r, p로 시작하는 단어는 제하고 매칭된다.</span></span></code></pre>
+<p>반복되는 문자 매칭하기</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">(MATCH) wazzzzzzup </span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) wazzzup </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  wazup </span></span>
+<span class="line"><span style="color: #c9d1d9">--------- </span></span>
+<span class="line"><span style="color: #c9d1d9">waz{2,}up     # quantifier를 이용. 두번째 인자를 생략하면 제한 없이 매칭된다.</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) aaaabccc</span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) aabbbbc</span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) aacc</span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  a</span></span>
+<span class="line"><span style="color: #c9d1d9">---------</span></span>
+<span class="line"><span style="color: #c9d1d9">a+b*c+      # a: 1개 이상, b: 0개 이상, c: 1개 이상인 경우 매칭되는 패턴이다.</span></span></code></pre>
+<p>공백 매칭하기(MATCH)</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">(MATCH) 1. abc</span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) 2.   abc</span></span>
+<span class="line"><span style="color: #c9d1d9">(MATCH) 3.      abc</span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  4.abc</span></span>
+<span class="line"><span style="color: #c9d1d9">---------</span></span>
+<span class="line"><span style="color: #c9d1d9">\d\.\s+abc   # 숫자 온점 이후에 공백이 1개 이상 포함된 문자열만 매칭된다.</span></span>
+<span class="line"><span style="color: #c9d1d9">             # 앞에서부터 차례로 읽으면 된다.</span></span>
+<span class="line"><span style="color: #c9d1d9">             # \d(숫자)\.(온점)\s+(공백이 1개 이상)abc(단순 패턴)</span></span></code></pre>
+<p>시작과 끝에 매칭하기</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">(MATCH) Mission: successful </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  Last Mission: unsuccessful </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  Next Mission: successful upon capture of target </span></span>
+<span class="line"><span style="color: #c9d1d9">---------</span></span>
+<span class="line"><span style="color: #c9d1d9">^Mission: successful$  # ^와 $ 사이의 패턴이 정확히 라인의 시작과 끝에 매칭된다.</span></span></code></pre>
+<p>그룹 매칭하기(MATCH)  </p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">(MATCH) Mission: successful </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  Last Mission: unsuccessful </span></span>
+<span class="line"><span style="color: #c9d1d9">(SKIP)  Next Mission: successful upon capture of target </span></span>
+<span class="line"><span style="color: #c9d1d9">---------</span></span>
+<span class="line"><span style="color: #c9d1d9">^Mission: successful$  # ^와 $ 사이의 패턴이 정확히 라인의 시작과 끝에 매칭된다.</span></span>
+<span class="line"><span style="color: #c9d1d9">                       # 이것 역시 앞에서부터 차례로 읽으면 된다.</span></span>
+<span class="line"><span style="color: #c9d1d9">                       # ^(라인 시작)file(단순 패턴).+(모든 문자가 1개 이상)\.(온점)pdf(단순 패턴)$(라인 끝)</span></span></code></pre>
+<h2 id="4-outro">4. Outro.</h2>
+<p>Regex와 관련한 유명한 농담이 있다.</p>
+<blockquote>
+<p><em><strong>어떤 사람들은 문제에 맞닥뜨렸을 때 ‘정규표현식을 이용해서 해결해야지’ 생각하곤 한다. 오래지않아, 그들은 이제 문제가 2개가 되었음을 깨닫는다.</strong></em></p>
+</blockquote>
+<p>Regex는 생각만큼 쉽게 익숙해지지 않는다. 이정도면 다 알게 되었다고 생각하는 순간, 다시 낯설게 느껴지는 경우가 생길 것이다. 처음부터 완벽하게 숙달할 필요는 없다. 필요해질 때마다 한 번씩 다시 찾아본다면, 어느새 익숙해진 자신을 발견하게 될 것이다.</p>
+<h2 id="reference">Reference.</h2>
+<ul>
+<li>브라이언 커니핸, 『유닉스의 탄생』, 한빛미디어(2020), 141–145p.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">MDN Regular expression</a> : Regex에 대한 표준적인 설명과 javascript 사용 예제를 함께 접할 수 있습니다.</li>
+<li><a href="https://regexone.com/">regexone</a> : Regex에 대한 훌륭한 설명과 예제를 제공합니다. 이 포스팅의 다룬 예제도 이 웹사이트에서 빌려온 것들입니다.</li>
+<li><a href="https://regexr.com/">regexr</a> : 실시간으로 regex를 작성해보고 매칭 결과를 확인해볼 수 있는 playground입니다.</li>
+<li><a href="https://regexper.com/">regexper</a> : 작성한 regex 패턴을 이용해 state machine을 그려주는 웹사이트입니다. regex가 작동하는 과정을 시각화해 확인할 수 있습니다.</li>
+</ul>
+			</article>
+		</main>
+		<footer class="astro-GU32XT2E">
+	&copy; 2020-2023 Jinu Noh. All rights reserved.
+</footer>
+
+	</body></html>
