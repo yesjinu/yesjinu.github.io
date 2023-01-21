@@ -1,6 +1,6 @@
 ---
 layout: '../../layouts/BlogPost.astro'
-title: 웹 개발자라면 반드시 알아야하는 HTTP의 기초
+title: HTTP tutorial
 
 pubDate: 2021-10-31T11:59:37.000Z
 

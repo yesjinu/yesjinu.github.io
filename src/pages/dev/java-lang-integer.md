@@ -1,6 +1,6 @@
 ---
 layout: '../../layouts/BlogPost.astro'
-title:  "JAVA parseInt() vs. valueOf() 무엇을 써야할까?"
+title:  "Java, parseInt() vs. valueOf() 무엇을 써야할까?"
 
 pubDate: 2022-06-12T05:56:41.000Z
 

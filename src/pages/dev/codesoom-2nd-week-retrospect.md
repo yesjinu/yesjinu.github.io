@@ -3,6 +3,7 @@ layout: '../../layouts/BlogPost.astro'
 title: 코드숨 2주차 과정 회고
 
 pubDate: 2022-06-19T00:25:38.000Z
+draft: true
 
 
 ---

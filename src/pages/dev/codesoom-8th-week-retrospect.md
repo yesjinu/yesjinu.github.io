@@ -4,6 +4,7 @@ title:  코드숨 8주차 과정 회고
 
 pubDate: 2022-07-31T05:34:19.000Z
 
+draft: true
 
 ---
 

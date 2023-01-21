@@ -3,7 +3,7 @@ layout: '../../layouts/BlogPost.astro'
 title: "[번역] 웹 아키텍쳐 101"
 
 pubDate: 2021-06-13T10:56:00.000Z
-
+draft: true
 
 ---
 

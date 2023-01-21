@@ -4,6 +4,7 @@ title:  코드숨 6주차 과정 회고
 
 pubDate: 2022-07-17T01:42:00.000Z
 
+draft: true
 
 ---
 
