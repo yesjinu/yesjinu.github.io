@@ -11,14 +11,15 @@ pubDate: 2021-12-01T07:46:00.000Z
 
 ## [문제 발생] 왜 테스트가 이상하게 동작하지?
 
-    test('함수 1 테스트', () => {}); // TEST PASSED ✅
-    
-    
-    test('함수 2 테스트', () => {}); // TEST FAILED ❌
-    
-    
-    test('함수 3 테스트', () => {}); // TEST FAILED ❌
+```javascript
+test('함수 1 테스트', () => {}); // TEST PASSED ✅
 
+
+test('함수 2 테스트', () => {}); // TEST FAILED ❌
+
+
+test('함수 3 테스트', () => {}); // TEST FAILED ❌
+```
 로직이 수정되지 않았는데, 테스트가 결과가 달라졌다?
 당시 **나는 함수 1을 리팩토링했다.  그런데 연관되지 않은 함수 2, 3의 테스트가 실패했다. **이들 함수는 서로 로직이 분리되어 있는 함수였다. 이유를 도무지 알 수가 없었다 🤔. 
 
@@ -26,19 +27,20 @@ pubDate: 2021-12-01T07:46:00.000Z
 
 로직에는 문제가 없음을 확인했다. 함수 1과 2, 3은 서로 분리되어 있어, 서로 영향을 미칠 수 없다. 그렇다면 문제는 테스트 코드 자체가 아니었을까? 
 
-    test('함수 1 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(X);
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Y);
-    });
-    
-    test('함수 2 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Z);
-    });
-    
-    test('함수 3 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(W);
-    });
-    
+```javascript
+test('함수 1 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(X);
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Y);
+});
+
+test('함수 2 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Z);
+});
+
+test('함수 3 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(W);
+});
+```
 
 모두 모듈A::메소드a를 mocking하고 있다
 문제가 생긴 테스트에는 **공통점**이 있었다. 모두 **같은 모듈의 같은 메소드를 모킹(mocking)하고 있다는 점**이다. 테스트 코드에서 mock은 테스트하고자 하는 대상의 '로직'만을 순수하게 분리할 때 사용한다. 
@@ -48,89 +50,102 @@ pubDate: 2021-12-01T07:46:00.000Z
 ## [문제점 발견] mock의 반환값이 한 칸씩 밀린다?
 
 불현듯, 내가 함수 1에서 수정한 사항이 떠올랐다. **함수 1을 리팩토링하면서 `모듈A::메소드a`의 호출 횟수가 2번에서 1번으로 줄었지만, 테스트 코드는 수정되지 않아 여전히 `모듈A::메소드a`의 mocking 함수가 2번 호출되고 있었다. **
+```javascript
+test('함수 1 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(X);
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Y);
+    // `모듈A::메소드a`는 한 번 밖에 호출되지 않는다.
+});
 
-    test('함수 1 테스트', () => {
-     	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(X);
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Y);
-    	// `모듈A::메소드a`는 한 번 밖에 호출되지 않는다.
-    });
-    
-    test('함수 2 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Z);
-    	// `모듈A::메소드a`를 호출하면 Y가 반환된다.
-    });
-    
-    test('함수 3 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(W);
-    	// `모듈A::메소드a`를 호출하면 W이 반환된다.
-    });
-    
+test('함수 2 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Z);
+    // `모듈A::메소드a`를 호출하면 Y가 반환된다.
+});
+
+test('함수 3 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(W);
+    // `모듈A::메소드a`를 호출하면 W이 반환된다.
+});
+```    
 
 나는 함수 1, 2, 3 테스트의 mocking된 함수의 반환값을 로그로 찍어보았다. '함수 2 테스트'에서 호출되는 `모듈A::메소드a`의 경우 `Z`를 반환하도록 mocking되어 있지만 실제로는 `Y`를 반환했다. **Jest는 마치 mock의 반환값이 한 칸씩 밀린 것처럼 동작**했다. 함수 1 테스트의 mocking 함수를 2번에서 1번 호출하는 것으로 변경하자 모든 테스트가 통과했다. 
 
-    test('함수 1 테스트', () => {}); // TEST PASSED ✅
-    
-    test('함수 2 테스트', () => {}); // TEST PASSED ✅
-    
-    test('함수 3 테스트', () => {}); // TEST PASSED ✅
+```javascript
+test('함수 1 테스트', () => {}); // TEST PASSED ✅
 
+test('함수 2 테스트', () => {}); // TEST PASSED ✅
+
+test('함수 3 테스트', () => {}); // TEST PASSED ✅
+
+```
 ## [오픈소스 들여다보기] Jest는 mock을 어떻게 구현했을까?
 
 `jest.spyOn(모듈, 메소드).mockResolvedValue(더미값)`에서 `spyOn` 함수의 인자로 넘겨진 `모듈`의 `메소드`는, 테스트 도중 호출될 경우 `더미값`을 리턴한다. 우리가 사용한 함수는 `mockResolvedValueOnce()` 으로 끝에 `Once` 라는 접미사가 붙어있다. `모듈::메소드`가 여러 번 호출되어도 딱 한 번만 우리가 설정한 `더미값` 이 리턴된다는 의미다.
 
 `mockResolvedValueOnce(더미값)` 에 설정한 값이 한 칸씩 뒤로 밀렸던 것으로 볼 때, **이 함수는 `single queue`에 값을 `PUSH`해놓았다가, 하나씩 `POP`해서 사용할 것이라고 추측할 수 있다**. 실제로도 그럴까? [Github에 공개된 Jest 프로젝트의 소스코드](https://github.com/facebook/jest)를 확인해보자.
 
-우리가 사용했던 jest의 `mockResolvedValueOnce()`는 `mockImplementationOnce()` 의 syntatic sugar다([Link](https://github.com/facebook/jest/blob/main/packages/jest-mock/src/index.ts#L727-L728)).
+우리가 사용했던 jest의 `mockResolvedValueOnce()`는 `mockImplementationOnce()` 의 syntatic sugar다([Link](https://github.com/facebook/jest/blob/63bf909da19c04c300bdcbd6555598f6588a73d0/packages/jest-mock/src/index.ts#L798-L801)).
 
-    f.mockResolvedValueOnce = (value: Unpromisify<T>) =>
-    	f.mockImplementationOnce(() => Promise.resolve(value as T));
+```javascript
+f.mockResolvedValueOnce = (value: ResolveType<T>) =>
+    f.mockImplementationOnce(() =>
+        this._environmentGlobal.Promise.resolve(value),
+    );
+```
+jest mock은 내부적으로 `MockFunctionConfig` 타입의 `mockConfig` 변수를 관리한다([Link](https://github.com/facebook/jest/blob/63bf909da19c04c300bdcbd6555598f6588a73d0/packages/jest-mock/src/index.ts#L255-L260)). **내부의 `specificMockImpls`이 `Array<Function>` 타입임을 확인할 수 있었다.**
 
-jest mock은 내부적으로 `MockFunctionConfig` 타입의 `mockConfig` 변수를 관리한다([Link](https://github.com/facebook/jest/blob/main/packages/jest-mock/src/index.ts#L176-L181)). **내부의 `specificMockImpls`이 `Array<Function>` 타입임을 확인할 수 있었다.**
+```javascript
+type MockFunctionConfig = {
+    mockImpl: Function | undefined;
+    mockName: string;
+    specificReturnValues: Array<unknown>;
+    specificMockImpls: Array<Function>; // 여기
+};
+```
 
-    type MockFunctionConfig = {
-    	mockImpl: Function | undefined;
-    	mockName: string;
-    	specificReturnValues: Array<unknown>;
-    	specificMockImpls: Array<Function>; // 
-    };
+`mockImplementationOnce()` 함수는 **호출 시 인자로 받은 함수 **`**fn**`**을 함수 어레이에 PUSH**한다([Link](https://github.com/facebook/jest/blob/63bf909da19c04c300bdcbd6555598f6588a73d0/packages/jest-mock/src/index.ts#L822-L828)).
 
-`mockImplementationOnce()` 함수는 **호출 시 인자로 받은 함수 **`**fn**`**을 함수 어레이에 PUSH**한다([Link](https://github.com/facebook/jest/blob/main/packages/jest-mock/src/index.ts#L743-L751)).
 
-    f.mockImplementationOnce = (
-    	fn: ((...args: Y) => T) | (() => Promise<T>)
-        ): Mock<T, Y> => {
-        	const mockConfig = this._ensureMockConfig(f);
-        	mockConfig.specificMockImpls.push(fn); // 함수 호출 시 인자로 받은 함수 fn을 어레이에 푸시
-        	return f;
-            };
+```javascript
+f.mockImplementationOnce = (fn: T) => {
+    const mockConfig = this._ensureMockConfig(f);
+    mockConfig.specificMockImpls.push(fn); // 함수 호출 시 인자로 받은 함수 fn을 어레이에 푸시
+    return f;
+};
+```
 
-mocking한 함수가 호출되면 `specificMockImples` 어레이에 element가 있는지 확인하고, 있다면 **맨 앞의 인덱스를 POP, **비어있다면 `mockImpl` (여기에서는 undefined)를 리턴한다.([Link](https://github.com/facebook/jest/blob/main/packages/jest-mock/src/index.ts#L647-L650))
+mocking한 함수가 호출되면 `specificMockImples` 어레이에 element가 있는지 확인하고, 있다면 **맨 앞의 인덱스를 POP, **비어있다면 `mockImpl` (여기에서는 undefined)를 리턴한다.([Link](https://github.com/facebook/jest/blob/63bf909da19c04c300bdcbd6555598f6588a73d0/packages/jest-mock/src/index.ts#L714-L717))
 
-    const mockImpl = mockConfig.specificMockImpls.length
-    	? mockConfig.specificMockImpls.shift() 
-    	: mockConfig.mockImpl;
-    return mockImpl && mockImpl.apply(this, arguments);
+```javascript
+const mockImpl = mockConfig.specificMockImpls.length
+    ? mockConfig.specificMockImpls.shift()
+    : mockConfig.mockImpl;
+return mockImpl && mockImpl.apply(this, arguments);
+```
 
 종합해서, `jest.spyOn()` 의 `mockResolvedValueOnce()` 가 내부적으로 single queue로 구현되어 있을 것이라는 추측이 옳았다. 함수가 호출될 때 jest 내부의  `specificMockImpls` 어레이의 상태를 주석으로 표현하면 다음과 같다.
 
-    test('함수 1 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(X); // [X]
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Y); // [X, Y]
-        
-    	call 모듈A::메소드a // X 리턴, 어레이에는 [Y]가 남아있음
-    });
+```javascript
+
+test('함수 1 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(X); // [X]
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Y); // [X, Y]
     
-    test('함수 2 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Z); // [Y, Z]
-        
-    	call 모듈A::메소드a // Y 리턴, 어레이에는 [Z]가 남아있음
-    });
+    call 모듈A::메소드a // X 리턴, 어레이에는 [Y]가 남아있음
+});
+
+test('함수 2 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(Z); // [Y, Z]
     
-    test('함수 3 테스트', () => {
-    	jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(W); // [Z, W]
-        
-    	call 모듈A::메소드a // Z 리턴, 어레이에는 [W]가 남아있음
-    });
+    call 모듈A::메소드a // Y 리턴, 어레이에는 [Z]가 남아있음
+});
+
+test('함수 3 테스트', () => {
+    jest.spyOn(모듈 A, '메소드a').mockResolvedValueOnce(W); // [Z, W]
+    
+    call 모듈A::메소드a // Z 리턴, 어레이에는 [W]가 남아있음
+});
+```
 
 ## [문제 해결] 원인을 해결하기 
 
@@ -138,13 +153,14 @@ mocking한 함수가 호출되면 `specificMockImples` 어레이에 element가 �
 
 Jest configuration에서 매 테스트마다 mock 세팅을 초기화하는 설정인 `resetMocks`을 `true` 로 설정([Link](https://jestjs.io/docs/configuration#resetmocks-boolean))하니 mock에서 값이 밀리는 문제가 해결되었다.
 
+```javascript
     // jest_config.json
     
     {
     	"resetMocks": true,
     	...
     }
-    
+```
 
 ## 마치며
 
