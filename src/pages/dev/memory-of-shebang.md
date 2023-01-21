@@ -10,7 +10,7 @@ pubDate: 2021-09-17T00:52:00.000Z
 ## [문제 발생] 왜 shell script를 찾지 못하지? 🔍
 
 GitLab runner를 이용한 빌드 및 디플로이 결과(성공/실패)를 슬랙으로 받아보기 위한 코드 작업을 진행하고 있었다. 슬랙 웹훅의 endpoint에 빌드 결과를 정리한 API을 호출하는 쉘 스크립트를 먼저 작성하고, `gitlab-ci.yml`에서 이 스크립트를 호출하는 식으로 구현하고 있었다. 매끄럽게 일이 완수될 것이라는 기대와는 다르게 **GitLab Runner가 빌드 중 쉘 스크립트 파일을 찾지 못하는 에러**가 발생하며 빌드 job이 중간에 drop되었다.
-![image](__GHOST_URL__/content/images/2021/11/not_found_error.png)slack_notification.sh: not found
+
 ## [원인 추론] 무엇이 문제일까? 🔍
 
 ### 가설 1. Typo
@@ -52,7 +52,7 @@ GitLab CI/CD는 원하는 스크립트를 실행하는 shell executer를 명시�
 내가 실행하고자 했던 'slack_notification.sh'의 상단에는 `#!/bin/bash`(shebang)이 포함되어 있었다. Shebang으로 시작하는 텍스트 파일이 있으면 프로그램 로더는 `#!`와 함께 명시된 인터프리터(여기에서는 `bash`)를 사용해 아래 라인들을 line-by-line으로 실행한다. 실행중인 컨테이너에 `/bin/bash`가 없으니 not found 에러가 날 수 밖에 없던 것이다.
 
 그렇다면 해결할 수 있는 방법은 2가지가 될 것이다. 빌드 컨테이너에 `bash`를 설치하거나, alpine linux가 기본적으로 제공하는 shell인 `ash`을 사용하거나. Docker image는 대개 경량화를 위해 alpine linux를 베이스로 사용하는 경우가 많으니, docker를 앞으로도 계속 사용할 예정이라면 실행환경 중 bash가 없는 경우가 계속 생길 것이다.** 이후의 시행착오를 근본적으로 막기 위해 OS가 기본적으로 제공하는 shell을 사용하는 것이 낫겠다고 판단했다.** 대부분의 POSIX 시스템에서 `/bin/sh`는 실행환경 OS 사용하는 sh 구현체의 symlink로 연결되어 있으므로, shebang을 `/bin/sh` 로 변경하면 여러 실행환경에서 shell executer를 찾지 못해 에러가 발생하는 일은 없을 것이다.
-![image](__GHOST_URL__/content/images/2021/11/shebang.png)짧고 굵은 diff
+
 Shell script 상단의 shebang을 `#!/bin/bash`  -> `#!/bin/sh` 로 수정하니 문제가 해결되었다.
 
 ## 참고

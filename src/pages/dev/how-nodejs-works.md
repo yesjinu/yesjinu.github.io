@@ -12,9 +12,8 @@ pubDate: 2021-07-10T15:49:00.000Z
 > 편의를 위해 이하 글에서는  node.js를 '노드', 자바스크립트를 JS로 줄여부르겠습니다 :)
 
 ## Node.js에 대한 간략한 설명
-![](__GHOST_URL__/content/images/2021/11/image-5.png)Ryan Dahl은 JSConf EU에서 node.js를 세상에 공개한다.
 노드는 2009년 JSConf EU에서 Ryan Dahl에 의해 처음 공개되었습니다. 당시 가장 널리 쓰이던 웹 서버는 **Apache HTTP 서버**였는데, 이 프로그램은 **concurrent한 커넥션을 핸들링하는 데에 한계**가 있었습니다. 내부적으로 synchronous하게 동작해 하나의 큰 long-running I/O를 실행하다가 전체 프로세스가 멈춰버리는 경우가 많았고, 기다리는 동안 콜 스택은 계속 쌓였죠. 결과적으로 scalable하지 않은 구조인 것입니다.
-![](__GHOST_URL__/content/images/2021/11/image-2.png)Apache HTTP 서버는 concurrency 환경에서 비효율적으로 동작한다.
+
 [위키피디아](https://en.wikipedia.org/wiki/Node.js)에 의하면 노드는 'V8 엔진을 이용해 브라우저 바깥에서 자바스크립트 코드를 실행하는 오픈소스, 크로스플랫폼 자바스크립트 런타임 환경.'라고 되어있습니다. V8 엔진은 자바스크립트 코드를 실행하는 엔진의 한 종류입니다. 이외에도 Chakra, SpiderMonkey 등의 엔진이 있습니다.
 
 이 두 가지 사실을 조합해 정리하자면, 노드는 **당시의 웹 서버가 가진 문제점을 해결하기 위해** 고안된 **asynchronous하게 동작하는 JS 런타임 환경**입니다.
@@ -22,9 +21,9 @@ pubDate: 2021-07-10T15:49:00.000Z
 ## 노드에 대한 심적 표상 만들기
 
 먼저 큰 틀에서 '노드가 무엇을 하는지, 어떻게 작동시킬 수 있는지'에 대한 **심적 표상**을 그리는 것이 중요합니다. 유저 인터페이스의 관점에서 노드를 살펴보겠습니다. 사실 노드는 설명하기 민망할 정도로 간단하게 사용할 수 있습니다.
-![](__GHOST_URL__/content/images/2021/11/image-6.png)JS로 작성한 코드를 `node`로 실행하면 된다.
+
 JS로 작성한 코드를 node로 실행하면 됩니다 (응?) 앞서 말했듯이 노드는 브라우저가 아닌 환경에서 JS 코드를 실행할 수 있는 실행환경이기 때문입니다. node 커맨드와 함께 실행하고 싶은 JS 파일을 인자로 넘기면 (마법처럼) 코드가 실행됩니다.
-![](__GHOST_URL__/content/images/2021/11/image-7.png)node.js의 강력한 패키지매니저 npm
+
 추가로 노드는 굉장히 큰 오픈소스 생태계를 가지고 있습니다. npm이라는 패키지 매니저를 통해 이 모듈들을 설치해 자신의 프로젝트에 사용할 수 있는데요, 때문에 필요한 것을 일일이 만들 필요없어 개발에 매우 속도를 붙일 수 있습니다. 노드가 인기있는 이유이기도 하지요.
 
 ## 우리가 답해볼 질문
@@ -35,7 +34,7 @@ JS로 작성한 코드를 node로 실행하면 됩니다 (응?) 앞서 말했듯
 2. 노드는 어떻게 (single thread이면서) I/O operation을 비동기로 처리하는가?
 
 먼저, 세부사항에 대해 알아보기 전에 노드 내부의 큼직한 구조도를 살펴봅시다. 노드는 여러 가지의 큰 모듈들의 집합으로 구성되어 있는데요, 이중에서 주요한 역할을 하는 두 가지의 큰 기둥이 **V8과 libuv**입니다.
-![image](__GHOST_URL__/content/images/2021/11/nodejs_module_diagram.png)
+
 - **V8**은 구글이 개발한 오픈소스 JS 엔진으로 JS를 native C++ 코드로 컴파일하는 역할을 맡습니다. V8은 자체적으로 70% C++와 30%의 JS로 짜여져 있습니다.
 - **libuv**는 비동기 I/O operation을 구현하는 엔진으로 OS와 communicate하는 부분입니다. libuv는 100% C로 짜여져 있습니다.
 
@@ -47,7 +46,6 @@ JS로 작성한 코드를 node로 실행하면 됩니다 (응?) 앞서 말했듯
 
 > **TLDR;** V8엔진이 JS 코드를 C++로 컴파일. 노드가 제공하는 모듈은 process.binding() 과정을 통해 C++ 코드와 연결되어 있음.
 
-![](__GHOST_URL__/content/images/2021/11/image-9.png)
 [Github repository of Node.js](https://github.com/nodejs/node)
 
 노드의 소스코드에는 크게 2개의 메인 디렉토리로 이루어져 있습니다.
@@ -68,50 +66,51 @@ JS로 작성한 코드를 node로 실행하면 됩니다 (응?) 앞서 말했듯
 
 다음과 같은 코드를 작성했다고 가정해봅시다.
 
-    const fs = require('fs')
-    ...
-    // read file at some_path
-    fs.readFile(some_path, some_options, (err, data) => {
-    	// error handling
-    	// do something with data
-    });
-    
+```javascript
+const fs = require('fs')
+...
+// read file at some_path
+fs.readFile(some_path, some_options, (err, data) => {
+  // error handling
+  // do something with data
+});
+``` 
 
 호출한 fs 모듈(`fs.js`) 내부의 readFile은 다음과 같이 구현되어 있습니다. ([Link](https://github.com/nodejs/node/blob/1317252dfe8824fd9cfee125d2aaa94004db2f3b/lib/fs.js#L370-L399))
-![](__GHOST_URL__/content/images/2021/11/image-8.png)readFile() 메소드의 중요한 두 부분을 캡쳐했습니다.
 우리가 초점을 맞추고 있는 것은 어떻게 이 함수가 C++ 구현체와 연결되는가 하는 부분입니다. `readFile()` 함수는 `ReadFileContext()` 모듈을 이용해 파일을 읽는 데에 필요한 `context`(사이즈, 버퍼, 인코딩, etc.)를 초기화합니다. 몇 가지 중간 작업 이후, 마지막으로 `binding.open()` 를 호출합니다.
 
 같은 fs.js 파일에 binding은 `internalBinding('fs')`로 선언되어 있는데요([Link](https://github.com/nodejs/node/blob/1317252dfe8824fd9cfee125d2aaa94004db2f3b/lib/fs.js#L70)), `internalBinding()` 함수는 인자로 넘겨진 것과 이름이 같은 같은 `namespace`를 찾아 로드하는 함수입니다. 이 함수를 통해 `binding` 은 'fs' namespace 내부에 있는 `src/node_file.cc`와 연결됩니다([Link](https://github.com/nodejs/node/blob/1317252dfe8824fd9cfee125d2aaa94004db2f3b/src/node_file.cc#L52)). 즉 binding.open()을 호출함으로써 JS 코드에서 node_file.cc 내부에 구현된 `open()` 함수를 사용할 수 있게 된 것입니다.
 
-    void FSReqCallback::Reject(Local<Value> reject) {
-      MakeCallback(env()->oncomplete_string(), 1, &reject);
-    }
-    
-    void FSReqCallback::ResolveStat(const uv_stat_t* stat) {
-      Resolve(FillGlobalStatsArray(env(), use_bigint(), stat));
-    }
-    
-    void FSReqCallback::Resolve(Local<Value> value) {
-      Local<Value> argv[2] {
-        Null(env()->isolate()),
-        value
-      };
-      MakeCallback(env()->oncomplete_string(),
-                   value->IsUndefined() ? 1 : arraysize(argv),
-                   argv);
-    }
-    
-    // Create FunctionTemplate for FSReqCallback
-    Local<FunctionTemplate> fst = env->NewFunctionTemplate(NewFSReqCallback);
-    fst->InstanceTemplate()->SetInternalFieldCount(1);
-    fst->Inherit(AsyncWrap::GetConstructorTemplate(env));
-    Local<String> wrapString =
-        FIXED_ONE_BYTE_STRING(isolate, "FSReqCallback");
-    fst->SetClassName(wrapString);
-    target->Set(context, wrapString,
-              fst->GetFunction(env->context()).ToLocalChecked())
-        .Check();
-    
+```C++
+void FSReqCallback::Reject(Local<Value> reject) {
+  MakeCallback(env()->oncomplete_string(), 1, &reject);
+}
+
+void FSReqCallback::ResolveStat(const uv_stat_t* stat) {
+  Resolve(FillGlobalStatsArray(env(), use_bigint(), stat));
+}
+
+void FSReqCallback::Resolve(Local<Value> value) {
+  Local<Value> argv[2] {
+    Null(env()->isolate()),
+    value
+  };
+  MakeCallback(env()->oncomplete_string(),
+                value->IsUndefined() ? 1 : arraysize(argv),
+                argv);
+}
+
+// Create FunctionTemplate for FSReqCallback
+Local<FunctionTemplate> fst = env->NewFunctionTemplate(NewFSReqCallback);
+fst->InstanceTemplate()->SetInternalFieldCount(1);
+fst->Inherit(AsyncWrap::GetConstructorTemplate(env));
+Local<String> wrapString =
+    FIXED_ONE_BYTE_STRING(isolate, "FSReqCallback");
+fst->SetClassName(wrapString);
+target->Set(context, wrapString,
+          fst->GetFunction(env->context()).ToLocalChecked())
+    .Check();
+``` 
 
 `node_file.cc` 내부에는 C++로 구현된 file system 함수와 callback logic이 구현되어 있습니다. 위 JS 코드에서 우리는 `const req = new FSReqCallback()`로 생성한 `req` 안에, JS 코드에서 인자로 받은 callback을 context 안에 담아 `binding.open()` 함수에 인자로 넘겼습니다.  `req`는 이 context property를 사용해 원하는 fs 동작을 수행하고, 동작이 완료되면 callback 합니다([Link](https://github.com/nodejs/node/blob/1317252dfe8824fd9cfee125d2aaa94004db2f3b/src/node_file.cc#L568-L584)).
 
@@ -119,7 +118,6 @@ JS로 작성한 코드를 node로 실행하면 됩니다 (응?) 앞서 말했듯
 
 > TLDR; 이벤트 루프를 통해 I/O operation을 워커 스레드에 위임. 결과값을 나중에 따로 확인하는 방식으로 동작함.
 
-![](__GHOST_URL__/content/images/2021/11/image-13.png)
 ### 자바스크립트 런타임
 
 먼저 자바스크립트 런타임에 대해 알아야 합니다. 자바스크립트는 싱글 스레드로 작동합니다. 이 말의 뜻은 하나의 프로세스에서 실행되는 자바스크립트 엔진(V8)은 **하나의 콜 스택만을 제공**한다는 것과 같습니다.
@@ -127,11 +125,10 @@ JS로 작성한 코드를 node로 실행하면 됩니다 (응?) 앞서 말했듯
 스택은 다들 아시다시피 Abstract Data Type의 한 종류로 LIFO로 동작합니다. JS는 현재 실행하는 함수의 주소값을 스택에 push하고, 완료되면 stack top에서 pop하는 식으로 동작합니다. 스택이 하나 밖에 없다는 말은, 한 번에 하나의 함수만 실행할 수 있다는 뜻으로 해석할 수 있습니다.
 
 만약 동기적인 자바스크립트 언어로 I/O operation(long-running function)을 포함한 코드를 실행하면 어떻게 될까요? 행렬 연산이나 이미지 프로세싱 같은 intensive한 동작이 콜 스택에 들어간다면, 이 동작이 완료되기 전까지 이후의 모든 코드가 실행되지 않고 blocking 되어 있을 겁니다. 이는 매우 바람직하지 않은 현상이죠.
-![](__GHOST_URL__/content/images/2021/11/image-10.png)DB query가 완료되기 전까지 프로세스 전체가 blocking된다 😵
 ### 이벤트 루프
 
 이벤트 루프는, (대부분 멀티 스레드로 동작하는) 시스템 커널에 업무를 분담함으로써 노드가 blocking 되어 있지 않고도 I/O operation을 수행할 수 있게 해줍니다. **Worker 스레드에 업무를 위임하고, 완료되었는지 주기적으로 체크하는 식**으로 작동하는 것이지요.
-![image](__GHOST_URL__/content/images/2021/11/nodejs_event_loop.png)
+
 이벤트 루프는 노드가 시작될 때 같이 초기화됩니다. 이벤트 루프는 (앞서 살펴본) 콜 스택과 이벤트 큐를 활용해 동작합니다. Synchronous하게 동작하는 코드는 콜 스택에 쌓이면서 차례로 실행됩니다. 그러던 중 blocking I/O 나 복잡한 연산이 필요한 코드를 만나면, 이벤트 루프는 커널의 스레드 풀에서 적절한 스레드를 골라 해당 코드를 실행하는 업무를 위임하고, 다음 코드 실행을 재개합니다. 이 동작은 libuv에 의해 이루어집니다.
 
 업무를 위임받은 스레드는 해당 I/O 업무를 수행하고 그 결과를 이벤트 큐에 push합니다. 이벤트 루프는 (loop 이름에 걸맞게) 콜 스택과 이벤트 큐를 계속 확인하고 있다가, 콜 스택이 비면 이벤트 큐에서 결과값을 pop해, 콜 스택에 push합니다. 그리고 이 콜 스택을 다시 실행하는 식입니다.

@@ -60,7 +60,7 @@ System call이 처리되는 동안 커널에서 유저 프로세스로 접근이
 `process_execute()`에서 `thread_create()` 함수를 호출하기 이전, `start_process()`에서 `load()` 함수를 호출하기 이전에, 인자로 넘긴 file_name 스트링을 스페이스바를 delimiter로 파싱합니다. 파싱은 C언어 라이브러리가 제공하는 `string.c::strtok_r()` 함수를 사용합니다.
 
 파싱된 아규먼트를 인자로 passing하기 위해서는 유저 스택에 삽입해야 합니다. 기존 pintos는 유저 스택에 아규먼트를 삽입하는 코드가 구현되어있지 않으므로, 별도의 함수로 구현해야 한다. load() 함수에서 빈 스택을 가리키도록 초기화된 esp(=stack pointer)를 통해 접근한 유저 스택에, 파싱된 아규먼트의 문자열을 right-to-left order로 스택에 PUSH합니다. 예를 들어 f(1, 2, 3)을 호출하면 stack에는 다음과 같이 들어가는 것이죠.
-![img](__GHOST_URL__/content/images/2021/11/stack_pointer.png)
+
 `/bin/ls -l foo bar` 라는 명령어를 execute한다고 해봅시다. /bin/ls는 실행하는 함수의 이름이 될 것이고, -l, foo, bar는 argument가 될 것입니다.
 
 1. 먼저 문자열을 파싱합니다. '/bin/ls', '-l', 'foo', 'bar' 순서에 상관없이 스택 위에 넣어둡니다.
@@ -68,7 +68,6 @@ System call이 처리되는 동안 커널에서 유저 프로세스로 접근이
 3. 그리고 argv와 argc를 차례로 푸시합니다. argv에는 argv[0]의 주소값이 담겨있고, argc에는 아규먼트의 개수가 담겨있습니다.
 4. 그리고 fake return address를 push함. 첫 함수는 return 할 일이 없지만 그래도 형식을 맞추기 위해 넣습니다.
 
-![img](__GHOST_URL__/content/images/2021/11/argument_passing.png)![img](__GHOST_URL__/content/images/2021/11/argument_passing_example.png)리틀 엔디안으로 적혀있음 (0xbf ff ff d8이면 d8 ff ff bf 순서로 적는 식)
 ## 3. System calls
 
 System call을 구현하기 전에, 유저 프로세스로부터 넘어온 포인터의 주소가 유저 영역을 가리키는지 검증하는 코드를 구현해야합니다. thread의 pagedir를 살펴보면, 넘어온 포인터의 주소가 유저 영역을 가리키는지 검사할 수 있습니다. 이 함수는 파라미터로 넘겨진 addr이 null pointer이거나, kernel virtual address space를 가리키거나, unmapped virtual memory이면 sys_exit(-1) 함수를 호출해 종료시킵니다.
