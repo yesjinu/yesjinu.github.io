@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="astro-GU7EB2LC">
+<html lang="en" class="astro-O6VAKD4V">
 	<head>
 		<!-- Global Metadata --><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -28,10 +28,12 @@
 <meta property="twitter:description">
 <meta property="twitter:image" content="https://yesjinu.github.io/placeholder-social.png">
 
+		<script src="https://giscus.app/client.js" data-repo="yesjinu/yesjinu.github.io" data-repo-id="R_kgDOG9Daaw" data-category="Ideas" data-category-id="DIC_kwDOG9Daa84CTymo" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="ko" crossorigin="anonymous" async>
+		</script>
 		
-	<link rel="stylesheet" href="/assets/about.b2d5acd5.css" /></head>
+	<link rel="stylesheet" href="/assets/about.c5b2e1ad.css" /></head>
 
-	<body class="astro-GU7EB2LC">
+	<body class="astro-O6VAKD4V">
 		<header class="astro-ZT4YO735">
 	<h2 class="astro-ZT4YO735">
 		Here&#39;s my dents in the universe
@@ -60,13 +62,13 @@
 	</nav>
 </header>
 
-		<main class="astro-GU7EB2LC">
-			<article class="astro-GU7EB2LC">
+		<main class="astro-O6VAKD4V">
+			<article class="astro-O6VAKD4V">
 				
-				<h1 class="title astro-GU7EB2LC">Jest의 mock은 내부적으로 어떻게 구현되어 있을까?</h1>
-				<time class="astro-GU7EB2LC">2021-12-01T07:46:00.000Z</time>
+				<h1 class="title astro-O6VAKD4V">Jest의 mock은 내부적으로 어떻게 구현되어 있을까?</h1>
+				<time class="astro-O6VAKD4V">2021-12-01T07:46:00.000Z</time>
 				
-				<hr class="astro-GU7EB2LC">
+				<hr class="astro-O6VAKD4V">
 				<p>우리 팀은 리팩토링의 황금 규칙을 따라, 코드 구조를 수정하기 전 항상 테스트 코드를 작성해 원치 않는 행동에 변경이 일어나는 것을 막고 있다. 테스트 코드를 작성하고, 리팩토링 하던 중 일어난 일이다.</p>
 <h2 id="문제-발생-왜-테스트가-이상하게-동작하지">[문제 발생] 왜 테스트가 이상하게 동작하지?</h2>
 <pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #D2A8FF">test</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'함수 1 테스트'</span><span style="color: #C9D1D9">, () </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> {}); </span><span style="color: #8B949E">// TEST PASSED ✅</span></span>
